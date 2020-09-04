@@ -1,11 +1,11 @@
 import React from 'react';
-import { GainProcessorExample } from './components/gain-processor';
+import { WavefoldingExample } from './components/examples';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <GainProcessorExample />
+      <WavefoldingExample />
     </div>
   );
 }

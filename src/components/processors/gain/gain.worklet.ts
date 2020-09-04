@@ -4,7 +4,7 @@
  */
 export class GainProcessor extends AudioWorkletProcessor {
   static get parameterDescriptors() {
-    return [{ name: 'gain', defaultValue: 1.0 }];
+    return [{ name: 'gain', defaultValue: 0.1 }];
   }
 
   process(inputs: SoundBuffer, outputs: SoundBuffer, parameters: SoundParams) {
