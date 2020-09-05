@@ -1,12 +1,29 @@
 import React from 'react';
-import { WavefoldingExample } from './components/examples';
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
+import {
+  WavefoldingExample,
+  GainProcessorExample,
+} from './components/examples';
+
 import './App.css';
+import { Menu } from './components/menu';
 
 function App() {
   return (
-    <div className="App">
-      <WavefoldingExample />
-    </div>
+    <Router>
+      <div className="App">
+        <Menu />
+        <Switch>
+          <Route path="/examples/gain">
+            <GainProcessorExample />
+          </Route>
+          <Route path="/examples/wavefolding">
+            <WavefoldingExample />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 

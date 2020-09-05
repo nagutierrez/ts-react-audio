@@ -7,7 +7,7 @@ export const Menu: React.FC = () => {
   return (
     <StyledMenu>
       <Link to={'/examples/gain'}>Gain</Link>
-      <Link to="/examples/wavefolding">Wavefolder</Link>
+      <Link to='/examples/wavefolding'>Wavefolder</Link>
     </StyledMenu>
   );
 };
@@ -18,7 +18,8 @@ const StyledMenu = styled.nav`
     padding: 10px;
     margin: 10px;
     border-radius: 4px;
-    background-color: red;
+    background-color: ${Colors.buttonBackground};
+    border: 1px solid ${Colors.buttonBorder};
     display: inline-block;
 
     text-decoration: none;
