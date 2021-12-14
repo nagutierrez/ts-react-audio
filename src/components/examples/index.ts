@@ -1,4 +1,3 @@
-export * from './gain-processor';
-export * from './waveshaper-processor';
-export * from './audio-playback';
 export * from './adsr';
+export * from './gain';
+export * from './waveshaper';

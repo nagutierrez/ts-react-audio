@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Bank, Slider } from '../../generic';
-import { AdsrNode } from './adsr-node';
+import { Bank, Slider } from '../generic';
+import { AdsrNode } from '../../lib/processors/adsr';
 
 interface AdsrControlsProps {
   adsr: AdsrNode;

@@ -1,10 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Example } from '../../generic';
 
-import { AdsrControls, AdsrNode } from '../../processors/adsr';
+import { Example } from '../../generic';
+import { AdsrControls } from '../../controls';
+import { AdsrNode } from '../../../lib/processors/adsr';
 
 /**
+ * An example of using an AudioNode as a control for another node's parameter;
+ * In this case, the output of the ADSR envelope generator is used to control
+ * the gain amount on a gain node.
  */
 export const AdsrExample: React.FC = () => {
   const contextRef = React.useRef(new AudioContext());

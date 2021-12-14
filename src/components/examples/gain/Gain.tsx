@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { GainControls } from '../../processors';
-import GainProcessor from '../../processors/gain/gain.worklet.ts';
 import { Example, Jukebox } from '../../generic';
+import { GainControls } from '../../controls';
+import { GainNode } from '../../../lib/processors';
 
 /**
  * A basic example of a function audio worklet
@@ -12,7 +12,7 @@ import { Example, Jukebox } from '../../generic';
 export const GainProcessorExample: React.FC = () => {
   const contextRef = React.useRef(new AudioContext());
   const sourceRef = React.useRef<MediaElementAudioSourceNode>();
-  const gainRef = React.useRef<AudioWorkletNode>();
+  const gainRef = React.useRef<GainNode>();
 
   const [, setReady] = React.useState(false);
 
@@ -20,9 +20,9 @@ export const GainProcessorExample: React.FC = () => {
     const c = contextRef.current;
 
     const setup = async () => {
-      await c.audioWorklet.addModule(GainProcessor);
+      await GainNode.Initialize(c);
 
-      const gain = new AudioWorkletNode(c, 'gain');
+      const gain = new GainNode(c);
       gain.connect(c.destination);
 
       gainRef.current = gain;
@@ -55,9 +55,7 @@ export const GainProcessorExample: React.FC = () => {
           sourceRef.current.connect(destination);
         }}
       />
-      {gainRef.current && (
-        <GainControls context={contextRef.current} worklet={gainRef.current} />
-      )}
+      {gainRef.current && <GainControls gain={gainRef.current} />}
     </StyledGainProcessorExample>
   );
 };

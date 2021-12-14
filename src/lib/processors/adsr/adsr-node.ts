@@ -5,8 +5,9 @@ import AdsrProcessor from './adsr.worklet.ts';
  * the params as member variables for easy manipulation.
  */
 export class AdsrNode extends AudioWorkletNode {
-  constructor(context: AudioContext) {
+  constructor(context: AudioContext, options?: AudioWorkletNodeOptions) {
     super(context, 'adsr', {
+      ...options,
       numberOfInputs: 0,
       numberOfOutputs: 1,
       channelCount: 1,

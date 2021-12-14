@@ -1,15 +1,14 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Example, Jukebox } from '../../generic';
-import WavefoldingProcessor from '../../processors/wavefolding/wavefolding.worklet.ts';
-import { WavefoldingControls } from '../../processors';
 
-/**
- */
+import { Example, Jukebox } from '../../generic';
+import { WavefoldingControls } from '../../controls';
+import { WavefoldingNode } from '../../../lib/processors';
+
 export const WavefoldingExample: React.FC = () => {
   const contextRef = React.useRef(new AudioContext());
   const sourceRef = React.useRef<MediaElementAudioSourceNode>();
-  const wfRef = React.useRef<AudioWorkletNode>();
+  const wfRef = React.useRef<WavefoldingNode>();
 
   const [, setReady] = React.useState(false);
 
@@ -17,13 +16,16 @@ export const WavefoldingExample: React.FC = () => {
     const c = contextRef.current;
 
     const setup = async () => {
-      await c.audioWorklet.addModule(WavefoldingProcessor);
+      c.resume();
 
-      const wf = new AudioWorkletNode(c, 'wavefolding');
+      // Register the wavefolding processor
+      await WavefoldingNode.Initialize(c);
+
+      // Create our wavefolding node and connect it to the output
+      const wf = new WavefoldingNode(c);
       wf.connect(c.destination);
 
       wfRef.current = wf;
-
       setReady(true);
     };
 
@@ -37,6 +39,7 @@ export const WavefoldingExample: React.FC = () => {
     >
       <Jukebox
         onAudioChange={(elem) => {
+          // Whenever the audio changes, we need to connect it to our waveshaper
           const context = contextRef.current;
           let source = sourceRef.current;
           let destination = wfRef.current;
@@ -52,12 +55,7 @@ export const WavefoldingExample: React.FC = () => {
           sourceRef.current.connect(destination);
         }}
       />
-      {wfRef.current && (
-        <WavefoldingControls
-          context={contextRef.current}
-          worklet={wfRef.current}
-        />
-      )}
+      {wfRef.current && <WavefoldingControls wavefolding={wfRef.current} />}
     </StyledWavefoldingExample>
   );
 };
