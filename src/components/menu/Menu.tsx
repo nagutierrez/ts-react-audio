@@ -6,14 +6,19 @@ import { Colors } from '../../styles';
 export const Menu: React.FC = () => {
   return (
     <StyledMenu>
-      <Link to={'/examples/gain'}>Gain</Link>
+      <Link to='/examples/gain'>Gain</Link>
       <Link to='/examples/wavefolding'>Wavefolder</Link>
+      <Link to='/examples/adsr'>ADSR</Link>
     </StyledMenu>
   );
 };
 Menu.displayName = 'Menu';
 
 const StyledMenu = styled.nav`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   a {
     padding: 10px;
     margin: 10px;
