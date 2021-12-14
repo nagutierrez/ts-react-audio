@@ -15,10 +15,10 @@ export const Jukebox: React.FC<JukeboxProps> = (props) => {
   const audioRef = React.useRef<HTMLAudioElement | null>(null);
 
   return (
-    <Bank label="Audio">
+    <StyledJukebox label='Audio'>
       <input
-        type="file"
-        accept="audio/*"
+        type='file'
+        accept='audio/*'
         onChange={(e) => {
           const file = e.target.files && e.target.files[0];
           const audio = audioRef.current;
@@ -32,14 +32,14 @@ export const Jukebox: React.FC<JukeboxProps> = (props) => {
         }}
       />
       <audio ref={audioRef} loop={true} controls={true} />
-    </Bank>
+    </StyledJukebox>
   );
 };
 
-const StyledJukebox = styled.div`
-  input,
-  audio {
-    display: block;
-    width: 100px;
+const StyledJukebox = styled(Bank)`
+  flex-direction: column;
+
+  > * {
+    margin: 4px 0;
   }
 `;

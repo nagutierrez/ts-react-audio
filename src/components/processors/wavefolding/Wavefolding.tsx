@@ -8,7 +8,7 @@ interface WavefoldingControlsProps {
 }
 
 export const WavefoldingControls: React.FC<WavefoldingControlsProps> = (
-  props
+  props,
 ) => {
   const { context, worklet } = props;
 
@@ -19,13 +19,14 @@ export const WavefoldingControls: React.FC<WavefoldingControlsProps> = (
   const [userMix, setUserMix] = React.useState(mix?.defaultValue || 0.0);
 
   return (
-    <Bank label="Wavefolding">
+    <Bank label='Wavefolding'>
       <Slider
         min={0.5}
         max={20.0}
         step={0.01}
         value={userGain}
-        label={userGain.toPrecision(2)}
+        label='Gain'
+        valueLabel={userGain.toPrecision(2)}
         onChange={(v) => {
           if (gain) {
             gain.setValueAtTime(v, context.currentTime);
@@ -38,7 +39,8 @@ export const WavefoldingControls: React.FC<WavefoldingControlsProps> = (
         max={1.0}
         step={0.01}
         value={userMix}
-        label={userMix.toPrecision(2)}
+        label='Mix'
+        valueLabel={userMix.toPrecision(2)}
         onChange={(v) => {
           if (mix) {
             mix.setValueAtTime(v, context.currentTime);

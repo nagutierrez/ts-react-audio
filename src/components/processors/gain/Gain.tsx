@@ -1,5 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
 import { Bank, Slider } from '../../generic';
 
 interface GainControlsProps {
@@ -15,7 +14,7 @@ export const GainControls: React.FC<GainControlsProps> = (props) => {
   const [userGain, setUserGain] = React.useState(gain?.defaultValue || 0.0);
 
   return (
-    <Bank label="Gain">
+    <Bank label='Gain'>
       <Slider
         min={0.0}
         max={1.0}
@@ -28,14 +27,8 @@ export const GainControls: React.FC<GainControlsProps> = (props) => {
           }
         }}
         value={userGain}
-        label={userGain.toPrecision(1)}
+        valueLabel={userGain.toPrecision(1)}
       />
     </Bank>
   );
 };
-
-const StyledGainControls = styled.div`
-  border-radius: 10px;
-  background-color: white;
-  padding: 20px;
-`;

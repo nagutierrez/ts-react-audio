@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { GainControls } from '../../processors';
 
+import { GainControls } from '../../processors';
 import GainProcessor from '../../processors/gain/gain.worklet.ts';
-import { Jukebox } from '../../generic';
+import { Example, Jukebox } from '../../generic';
 
 /**
  * A basic example of a function audio worklet
@@ -34,61 +34,35 @@ export const GainProcessorExample: React.FC = () => {
   }, []);
 
   return (
-    <StyledGainProcessorExample>
-      <StyledMessage>
-        <h1>Gain Processor</h1>
-        <p>Implementation of gain as an AudioWorklet, with React front end.</p>
-      </StyledMessage>
-      <StyledModules>
-        <Jukebox
-          onAudioChange={(elem) => {
-            const context = contextRef.current;
-            let source = sourceRef.current;
-            let destination = gainRef.current;
+    <StyledGainProcessorExample
+      title='Gain Processor'
+      descriptor='Implementation of gain as an AudioWorklet, with React front end.'
+    >
+      <Jukebox
+        onAudioChange={(elem) => {
+          const context = contextRef.current;
+          let source = sourceRef.current;
+          let destination = gainRef.current;
 
-            if (!destination) {
-              return;
-            }
+          if (!destination) {
+            return;
+          }
 
-            if (source) {
-              source.disconnect();
-            }
-            sourceRef.current = context.createMediaElementSource(elem);
-            sourceRef.current.connect(destination);
-          }}
-        />
-        {gainRef.current && (
-          <GainControls
-            context={contextRef.current}
-            worklet={gainRef.current}
-          />
-        )}
-      </StyledModules>
+          if (source) {
+            source.disconnect();
+          }
+          sourceRef.current = context.createMediaElementSource(elem);
+          sourceRef.current.connect(destination);
+        }}
+      />
+      {gainRef.current && (
+        <GainControls context={contextRef.current} worklet={gainRef.current} />
+      )}
     </StyledGainProcessorExample>
   );
 };
 GainProcessorExample.displayName = 'GainProcessorExample';
 
-const StyledGainProcessorExample = styled.div`
+const StyledGainProcessorExample = styled(Example)`
   background-color: #95a7e6;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledMessage = styled.div`
-  max-width: 300px;
-  color: white;
-
-  h1 {
-    margin: 0;
-  }
-`;
-
-const StyledModules = styled.div`
-  display: flex;
-  align-items: center;
 `;

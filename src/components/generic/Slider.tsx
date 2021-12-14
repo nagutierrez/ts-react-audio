@@ -21,6 +21,7 @@ interface SliderProps {
   max?: number;
   step?: number;
   label?: string;
+  valueLabel?: string;
   colors?: ColorScheme;
   defaultValue?: number;
   value?: number;
@@ -29,10 +30,11 @@ interface SliderProps {
 export const Slider: React.FC<SliderProps> = (props) => {
   return (
     <StyledSlider colors={props.colors || defaultColors}>
+      {props.label && <label>{props.label}</label>}
       <input
-        type="range"
+        type='range'
         // @ts-ignore
-        orient="vertical"
+        orient='vertical'
         onChange={(e) => {
           props.onChange(e.target.valueAsNumber);
         }}
@@ -42,7 +44,7 @@ export const Slider: React.FC<SliderProps> = (props) => {
         step={props.step}
         value={props.value}
       />
-      <label>{props.label}</label>
+      <label>{props.valueLabel || props.value}</label>
     </StyledSlider>
   );
 };
@@ -51,12 +53,13 @@ const StyledSlider = styled.div<{ colors: ColorScheme }>`
   display: flex;
   flex-direction: column;
   text-align: center;
+  align-items: center;
 
   input[type='range'][orient='vertical'] {
     writing-mode: bt-lr; /* IE */
     -webkit-appearance: slider-vertical; /* WebKit */
     width: 50px;
-    height: 200px;
+    height: 180px;
     border-radius: 8px;
     margin: 8px;
     outline: none;
@@ -88,6 +91,10 @@ const StyledSlider = styled.div<{ colors: ColorScheme }>`
   }
 
   label {
+    display: flex;
+    align-items: center;
     color: ${(p) => p.colors.text || 'black'};
+    max-width: 100px;
+    height: 2.5em;
   }
 `;
