@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Example } from '../../generic';
-import { AdsrControls } from '../../controls';
+import { Example } from '../../../components/generic';
+import { AdsrControls } from '../../../components/controls';
 import { AdsrNode } from '../../../lib/processors/adsr';
 
 /**
@@ -64,16 +64,18 @@ export const AdsrExample: React.FC = () => {
 
   const adsr = adsrRef.current;
 
-  if (!adsr || !isReady) {
-    return <b>Loading…</b>;
-  }
-
   return (
     <StyledAdsrExample
       title='ADSR Example'
       descriptor='An exponential envelope generator'
     >
-      <AdsrControls adsr={adsr} />
+      {!adsr || !isReady ? (
+        <h1>Loading…</h1>
+      ) : (
+        <>
+          <AdsrControls adsr={adsr} />
+        </>
+      )}
     </StyledAdsrExample>
   );
 };

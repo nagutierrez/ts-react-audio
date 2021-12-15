@@ -1,8 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
-import { Example, Jukebox } from '../../generic';
-import { WavefoldingControls } from '../../controls';
+import { Example, Jukebox } from '../../../components/generic';
+import { WavefoldingControls } from '../../../components/controls';
 import { WavefoldingNode } from '../../../lib/processors';
 
 export const WavefoldingExample: React.FC = () => {
@@ -10,7 +10,7 @@ export const WavefoldingExample: React.FC = () => {
   const sourceRef = React.useRef<MediaElementAudioSourceNode>();
   const wfRef = React.useRef<WavefoldingNode>();
 
-  const [, setReady] = React.useState(false);
+  const [isReady, setReady] = React.useState(false);
 
   React.useEffect(() => {
     const c = contextRef.current;
@@ -32,30 +32,38 @@ export const WavefoldingExample: React.FC = () => {
     setup();
   }, []);
 
+  const onAudioChange = (elem: HTMLAudioElement) => {
+    // Whenever the audio changes, we need to connect it to our waveshaper
+    const context = contextRef.current;
+    let source = sourceRef.current;
+    let destination = wfRef.current;
+
+    if (!destination) {
+      return;
+    }
+
+    if (source) {
+      source.disconnect();
+    }
+    sourceRef.current = context.createMediaElementSource(elem);
+    sourceRef.current.connect(destination);
+  };
+
+  const wf = wfRef.current;
+
   return (
     <StyledWavefoldingExample
       title='Wavefolding Processor'
       descriptor='Simple wavefolding; output = sin(gain * input)'
     >
-      <Jukebox
-        onAudioChange={(elem) => {
-          // Whenever the audio changes, we need to connect it to our waveshaper
-          const context = contextRef.current;
-          let source = sourceRef.current;
-          let destination = wfRef.current;
-
-          if (!destination) {
-            return;
-          }
-
-          if (source) {
-            source.disconnect();
-          }
-          sourceRef.current = context.createMediaElementSource(elem);
-          sourceRef.current.connect(destination);
-        }}
-      />
-      {wfRef.current && <WavefoldingControls wavefolding={wfRef.current} />}
+      {!isReady || !wf ? (
+        <h1>Loading…</h1>
+      ) : (
+        <>
+          <Jukebox onAudioChange={onAudioChange} />
+          <WavefoldingControls wavefolding={wf} />
+        </>
+      )}
     </StyledWavefoldingExample>
   );
 };

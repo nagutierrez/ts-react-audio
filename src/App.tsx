@@ -1,42 +1,50 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import * as React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 
 import './App.css';
 
 import {
-  WavefoldingExample,
-  GainProcessorExample,
+  Examples,
   AdsrExample,
-} from './components/examples';
-import { Menu } from './components/menu';
+  GainProcessorExample,
+  Landing,
+  WavefoldingExample,
+  Splash,
+} from './views';
 
 function App() {
+  /**
+   * Apps using the Web Audio API need to be interacted with before we are
+   * allowed to start any audio contexts- therefore we must wrap the entire app
+   * in a splash screen that is deactivated via a click.
+   */
+  const [activated, setActivated] = React.useState(false);
+  React.useEffect(() => {
+    const onClick = () => {
+      setActivated(true);
+      window.removeEventListener('click', onClick);
+    };
+    window.addEventListener('click', onClick);
+  }, []);
+
   return (
-    <Router>
-      <StyledApp>
-        <Menu />
-        <Switch>
-          <Route path='/examples/gain'>
-            <GainProcessorExample />
-          </Route>
-          <Route path='/examples/wavefolding'>
-            <WavefoldingExample />
-          </Route>
-          <Route path='/examples/adsr'>
-            <AdsrExample />
-          </Route>
-        </Switch>
-      </StyledApp>
-    </Router>
+    <>
+      <Splash visible={!activated} />
+      {activated && (
+        <BrowserRouter>
+          <Routes>
+            <Route path='/' element={<Landing />} />
+            <Route path='examples' element={<Examples />}>
+              <Route path='gain' element={<GainProcessorExample />} />
+              <Route path='wavefolding' element={<WavefoldingExample />} />
+              <Route path='adsr' element={<AdsrExample />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      )}
+    </>
   );
 }
-
-const StyledApp = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-`;
 
 export default App;

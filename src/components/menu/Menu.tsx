@@ -3,9 +3,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Colors } from '../../styles';
 
-export const Menu: React.FC = () => {
+interface Props {
+  className?: string;
+}
+
+export const Menu: React.FC<Props> = (props: Props) => {
   return (
-    <StyledMenu>
+    <StyledMenu {...props}>
       <Link to='/examples/gain'>Gain</Link>
       <Link to='/examples/wavefolding'>Wavefolder</Link>
       <Link to='/examples/adsr'>ADSR</Link>
