@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import styled from 'styled-components';
 
 import './App.css';
 
@@ -20,17 +19,10 @@ function App() {
    * in a splash screen that is deactivated via a click.
    */
   const [activated, setActivated] = React.useState(false);
-  React.useEffect(() => {
-    const onClick = () => {
-      setActivated(true);
-      window.removeEventListener('click', onClick);
-    };
-    window.addEventListener('click', onClick);
-  }, []);
 
   return (
     <>
-      <Splash visible={!activated} />
+      <Splash visible={!activated} onClick={() => setActivated(true)} />
       {activated && (
         <BrowserRouter>
           <Routes>

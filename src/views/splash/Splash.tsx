@@ -3,12 +3,14 @@ import styled from 'styled-components';
 
 interface Props {
   visible: boolean;
+  onClick: () => void;
 }
 
 export const Splash: React.FC<Props> = (props: Props) => {
   return (
     <StyledSplash {...props}>
-      <h1>Sound.Heartfelt.Engineering</h1>
+      <h1>Sound</h1>
+      <h2>Heartfelt.Engineering</h2>
       <span>Click or Tap to Begin</span>
     </StyledSplash>
   );
@@ -38,6 +40,11 @@ const StyledSplash = styled.div<Props>`
   background-size: 400% 400%;
 
   animation: gradient 20s ease infinite;
+
+  > * {
+    text-align: center;
+    margin-top: 0;
+  }
 
   @keyframes gradient {
     0% {
