@@ -11,6 +11,18 @@ interface AdsrControlsProps {
 export const AdsrControls: React.FC<AdsrControlsProps> = (props) => {
   const { adsr } = props;
 
+  const [triggered, setTriggered] = React.useState(false);
+
+  const trigger = () => {
+    adsr.trigger.value = 1.0;
+    setTriggered(true);
+  };
+
+  const release = () => {
+    adsr.trigger.value = 0.0;
+    setTriggered(false);
+  };
+
   return (
     <Bank label='ADSR'>
       <Slider
@@ -66,13 +78,11 @@ export const AdsrControls: React.FC<AdsrControlsProps> = (props) => {
       <StyledTrigger>
         <label>Trigger</label>
         <button
-          onMouseDown={() => {
-            adsr.trigger.value = 1;
-          }}
-          onMouseUp={() => {
-            adsr.trigger.value = 0;
-          }}
+          onMouseDown={trigger}
+          onMouseUp={release}
+          onMouseOut={release}
         />
+        <StyledIndicator on={triggered} />
       </StyledTrigger>
     </Bank>
   );
@@ -94,6 +104,18 @@ const StyledTrigger = styled.div`
   button {
     width: 100px;
     height: 100px;
-    margin-top: 10px;
+    margin: 10px 0;
   }
+`;
+
+const StyledIndicator = styled.div<{ on: boolean }>`
+  border-radius: 12px;
+  height: 12px;
+  width: 12px;
+  border: 1px solid grey;
+
+  transition: all 250ms;
+  background-color: ${(p) => (p.on ? 'red' : 'transparent')};
+  box-shadow: 0px 0px ${(p) => (p.on ? 8 : 0)}px 0px
+    ${(p) => (p.on ? 'rgba(255,0,0,0.68)' : 'rgba(0,0,0,0.0)')};
 `;

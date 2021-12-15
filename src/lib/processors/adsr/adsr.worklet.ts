@@ -32,14 +32,14 @@ export class AdsrProcessor extends AudioWorkletProcessor {
       },
       {
         name: 'sustain',
-        defaultValue: 1,
+        defaultValue: 0.5,
         minValue: 0,
         maxValue: 1,
         automationRate: 'k-rate',
       },
       {
         name: 'release',
-        defaultValue: 0.1,
+        defaultValue: 0.3,
         minValue: 0,
         maxValue: 60,
         automationRate: 'k-rate',
